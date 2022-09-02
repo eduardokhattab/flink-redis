@@ -5,11 +5,23 @@ import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommand;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisCommandDescription;
 import org.apache.flink.streaming.connectors.redis.common.mapper.RedisMapper;
 
+import java.util.Optional;
+
 public class RedisMapperImpl implements RedisMapper<Tuple3<String,String,String>> {
+
+    String userId;
+
+    public RedisMapperImpl(String userId) {
+        this.userId = userId;
+    }
+
+    public RedisMapperImpl() {
+        this(null);
+    }
 
     @Override
     public RedisCommandDescription getCommandDescription(){
-        return new RedisCommandDescription(RedisCommand.SET);
+        return new RedisCommandDescription(RedisCommand.ZADD, this.userId);
     }
 
     @Override
@@ -20,5 +32,10 @@ public class RedisMapperImpl implements RedisMapper<Tuple3<String,String,String>
     @Override
     public String getValueFromData(Tuple3<String,String,String> data){
         return data.f1;
+    }
+
+    @Override
+    public Optional<String> getAdditionalKey(Tuple3<String, String, String> data) {
+        return Optional.ofNullable(data.f2);
     }
 }
