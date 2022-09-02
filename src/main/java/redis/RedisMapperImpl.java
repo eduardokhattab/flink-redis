@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public class RedisMapperImpl implements RedisMapper<Tuple3<String,String,String>> {
 
-    String userId;
+    String hashName;
 
-    public RedisMapperImpl(String userId) {
-        this.userId = userId;
+    public RedisMapperImpl(String hashName) {
+        this.hashName = hashName;
     }
 
     public RedisMapperImpl() {
@@ -21,7 +21,7 @@ public class RedisMapperImpl implements RedisMapper<Tuple3<String,String,String>
 
     @Override
     public RedisCommandDescription getCommandDescription(){
-        return new RedisCommandDescription(RedisCommand.ZADD, this.userId);
+        return new RedisCommandDescription(RedisCommand.ZADD, this.hashName);
     }
 
     @Override
