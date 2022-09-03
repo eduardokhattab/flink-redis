@@ -8,3 +8,12 @@ services:
             - "6379:6379"
         volumes:
             - $PWD/redis-data:/var/lib/redis
+
+    postgres:
+        image: postgres:12.2
+        ports:
+          - '15432:5432'
+        environment:
+          - POSTGRES_PASSWORD=teste123
+          - POSTGRES_USER=eduardo
+          - POSTGRES_DB=challenge
